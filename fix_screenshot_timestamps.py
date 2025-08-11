@@ -3,16 +3,13 @@ import os
 import re
 from datetime import datetime
 
-# Use current directory
+# Directory to scan for screenshots
 directory = "."
 
-# Filename formats for macOS screenshots:
-# - macOS Mojave (10.14) and Later:
-#   Screenshot YYYY-MM-DD at HH.MM.SS [AM|PM].png
-# - Earlier macOS Versions (Before Mojave):
-#   Screen Shot YYYY-MM-DD at HH.MM.SS.png
-
-# Regex to match both old and new macOS screenshot filename formats
+# Note:
+# - Handles both filename prefixes: "Screen Shot" and "Screenshot".
+# - Regex matches optional AM/PM and supports one or two-digit hours.
+# - Supports both regular and non-breaking spaces before AM/PM.
 pattern = re.compile(
     r"^(Screen Shot|Screenshot) (\d{4})-(\d{2})-(\d{2}) at (\d{1,2})\.(\d{2})\.(\d{2})\s?(AM|PM)?\.png$"
 )
@@ -23,6 +20,7 @@ for filename in os.listdir(directory):
         _, year, month, day, hour, minute, second, ampm = match.groups()
         hour, minute, second = int(hour), int(minute), int(second)
 
+        # Convert 12h to 24h format if AM/PM present
         if ampm:
             ampm = ampm.upper()
             if ampm == "PM" and hour != 12:
@@ -36,6 +34,7 @@ for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         access_time = os.stat(file_path).st_atime
 
+        # Update modification time, keep access time
         os.utime(file_path, (access_time, mod_time))
 
         print(f"✅ {filename} → {dt.strftime('%Y-%m-%d %H:%M:%S')}")
