@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import os
 import re
+import sys
 from datetime import datetime
 
-# Directory to scan for screenshots
-directory = "."
+# Directory to scan for screenshots (from argument or default to current dir)
+directory = sys.argv[1] if len(sys.argv) > 1 else "."
 
 # Note:
 # - Handles both filename prefixes: "Screen Shot" and "Screenshot".

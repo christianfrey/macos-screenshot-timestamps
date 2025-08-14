@@ -20,16 +20,17 @@ A small Python script to **synchronize the file modification date** of macOS scr
 ## Usage
 
 ```bash
-python3 fix_screenshot_timestamps.py
+python3 fix_screenshot_timestamps.py [directory]
 ```
 
-* The script searches for screenshots in the current working directory.
-* It updates the **modification time** to match the timestamp found in the filename.
+- If `[directory]` is provided, the script searches for screenshots in the given directory.
+- If omitted, it searches in the current working directory.
+- It updates the **modification time** to match the timestamp found in the filename.
 
 ## Requirements
 
-* Python **3.6+**
-* Read and write access to the target directory
+- Python **3.6+**
+- Read and write access to the target directory
 
 ## Example Output
 
